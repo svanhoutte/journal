@@ -1,6 +1,6 @@
-from ruby:3.1.2
+FROM ruby:3.1.2
 
-RUN apt update && apt install -y nodejs
+RUN apt update && apt install -y nodejs git
 
 RUN gem update --system
 RUN gem install bundler
@@ -19,6 +19,7 @@ ADD Gemfile Gemfile.lock /app/
 
 RUN bundle update --bundler
 RUN bundle install
+RUN git clone https://github.com/svanhoutte/wyze_garmin_sync.git
 
 ADD . .
 
