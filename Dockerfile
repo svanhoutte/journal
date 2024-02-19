@@ -19,10 +19,9 @@ ADD Gemfile Gemfile.lock /app/
 
 RUN bundle update --bundler
 RUN bundle install
-
-COPY /home/efreeze/container/journal/journal .
+ADD https://github.com/svanhoutte/journal.git /app
 
 RUN bundle exec rake assets:precompile
 
 RUN mkdir -p tmp/pids
-CMD pwd
+CMD ls -l
