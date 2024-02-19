@@ -25,3 +25,4 @@ ADD . .
 RUN bundle exec rake assets:precompile
 
 RUN mkdir -p tmp/pids
+CMD /bin/sh -l
