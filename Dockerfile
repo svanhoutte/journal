@@ -1,6 +1,6 @@
 FROM ruby:3.1.2
 
-RUN apt update && apt install -y nodejs git
+RUN apt update && apt install -y nodejs
 
 RUN gem update --system
 RUN gem install bundler
@@ -19,16 +19,9 @@ ADD Gemfile Gemfile.lock /app/
 
 RUN bundle update --bundler
 RUN bundle install
-RUN git clone https://github.com/svanhoutte/wyze_garmin_sync.git
 
 ADD . .
 
 RUN bundle exec rake assets:precompile
 
 RUN mkdir -p tmp/pids
-
-COPY ./bin/docker-run.sh /usr/local/bin/docker-run.sh
-
-RUN chmod 755 /usr/local/bin/docker-run.sh
-
-ENTRYPOINT ["/bin/sh","/usr/local/bin/docker-run.sh"]
