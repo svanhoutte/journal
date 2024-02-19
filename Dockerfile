@@ -25,3 +25,9 @@ ADD . .
 RUN bundle exec rake assets:precompile
 
 RUN mkdir -p tmp/pids
+
+COPY ./bin/docker-run.sh /usr/local/bin/docker-run.sh
+
+RUN chmod 755 /usr/local/bin/docker-run.sh
+
+ENTRYPOINT ["/bin/sh","/usr/local/bin/docker-run.sh"]
