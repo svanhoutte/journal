@@ -20,7 +20,7 @@ ADD Gemfile Gemfile.lock /app/
 RUN bundle update --bundler
 RUN bundle install
 
-COPY ./journal/ .
+COPY journal .
 
 RUN bundle exec rake assets:precompile
 
