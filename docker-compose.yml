@@ -2,33 +2,37 @@ networks:
   journal:
     internal: true
   proxy:
+    external: true
 
 services:
   journal:
-    build: https://github.com/inoda/journal.git#main
-    image: gh-inoda-journal
+    #build: https://github.com/svanhoutte/journal.git#main
+    image: svanhoutte/journal:latest
     volumes:
       - /media/jc/floppy/journal/data:/app:rw
     environment:
       - RAILS_ENV=production
       - SITE_DOMAIN=domain.tld
-      - DATABASE_URL=postgres://replaceme:RePLAcEpAsS@journal-db/placeholder
+      - DATABASE_URL=postgres://replaceme:RePLAcEpAsS@journal-db/journal
       - CIPHER_KEY=replaceme # openssl rand -base64 32
       - SHARING_TOKEN_CIPHER_IV=replaceme # openssl rand -base64 16
-      - SECRET_KEY_BASE=sPoNgeB0bRePlACEmE # random alphanumerical
+      - SECRET_KEY_BASE=sPoNgeB0bRePlACEmE # random alphanumerical: tr -dc A-Za-z0-9 </dev/urandom | head -c 30; echo
     ports:
-      - 8080:3000
+      - 8383:3000
     networks:
       - proxy
       - journal
+    depends_on:
+      journal-db:
+        condition: service_healthy
     restart: unless-stopped
 
   journal-db:
     image: postgres:alpine
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "replaceme"]
+      test: ["CMD", "pg_isready", "-U", "replaceme", "-d", "journal"]
     environment:
-      - POSTGRES_DB=placeholder
+      - POSTGRES_DB=journal
       - POSTGRES_USER=replaceme
       - POSTGRES_PASSWORD=RePLAcEpAsS
     volumes:
