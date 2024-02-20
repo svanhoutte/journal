@@ -34,3 +34,20 @@ location / {
   proxy_set_header X-Forwarded-Host $http_host;
 }
 ```
+
+Here is an example for Traefik reverse proxy
+
+```
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.journal.entrypoints=http"
+      - "traefik.http.routers.journal.rule=Host(`journal.local.replaceme`)"
+      - "traefik.http.middlewares.journal-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.journal.middlewares=journal-https-redirect"
+      - "traefik.http.routers.journal-secure.entrypoints=https"
+      - "traefik.http.routers.journal-secure.rule=Host(`journal.local.efreeze.me`)"
+      - "traefik.http.routers.journal-secure.tls=true"
+      - "traefik.http.routers.journal-secure.service=journal"
+      - "traefik.http.services.journal.loadbalancer.server.port=3000"
+      - "traefik.docker.network=proxy"
+```
