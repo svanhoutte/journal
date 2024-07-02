@@ -1,4 +1,4 @@
-FROM ruby:3.3.0-alpine3.18
+FROM ruby:3.3.3-alpine
 
 # for ubuntu based container RUN apt update && apt install -y nodejs
 RUN apk update && apk add --no-cache build-base postgresql-dev nodejs npm
