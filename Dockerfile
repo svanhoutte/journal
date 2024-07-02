@@ -1,6 +1,7 @@
-FROM ruby:3.1.2
+FROM ruby:3.3.0-alpine3.18
 
-RUN apt update && apt install -y nodejs
+# for ubuntu based container RUN apt update && apt install -y nodejs
+RUN apk update && apk add --no-cache build-base postgresql-dev nodejs npm
 
 RUN gem update --system
 RUN gem install bundler
